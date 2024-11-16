@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Top Artists</h2>
+<div class="buttons">
+    <button onclick="fetchTopItems('artists', 'short_term', this)">Past 4 Weeks</button>
+    <button onclick="fetchTopItems('artists', 'medium_term', this)">Past 6 Months</button>
+    <button onclick="fetchTopItems('artists', 'long_term', this)">Past Year</button>
+</div>
+
+<div id="top-items"></div>
+<script src="{{ url_for('static', filename='top_items.js') }}"></script>
+{% endblock %}

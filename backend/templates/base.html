@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your App</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1 class="statify">STATify</h1>
+            <div class="nav-links">
+                {% if session.get('access_token') %}
+                    <a href="{{ url_for('profile') }}">Profile</a>
+                    <a href="{{ url_for('top_tracks') }}">Top Tracks</a>
+                    <a href="{{ url_for('top_artists') }}">Top Artists</a>
+                    <a href="{{ url_for('top_albums') }}">Top Albums</a>
+                    <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

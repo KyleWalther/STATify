@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome, {{ profile.name }}!</h2>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{{ profile.image }}" alt="Profile Image" class="profile-image">
+    </div>
+
+    <div class="playlist-container">
+        <!-- Playlists Section -->
+        <h3>Playlists</h3>
+        <ul class="playlist-list">
+            {% for playlist in profile.playlists %}
+                <li class="playlist-item">
+                    {% if playlist.image %}
+                        <img src="{{ playlist.image }}" alt="{{ playlist.name }}" class="playlist-image">
+                    {% endif %}
+                    <a href="{{ playlist.url }}" target="_blank" class="playlist-link">{{ playlist.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+ <!-- Top 10 Current Tracks Section -->
+<h3>TOP 10 TRACKS</h3>
+<div class="track-container"> 
+    <ul class="track-list">
+        {% for track in profile.top_tracks[:10] %} 
+            <li class="track-item">
+                <div class="track-info"> 
+                    {% if track.album_cover %} 
+                        <img src="{{ track.album_cover }}" alt="{{ track.name }} album cover" class="album-cover">
+                    {% endif %}
+                    <a href="{{ track.url }}" target="_blank" class="track-link">{{ track.name }} by {{ track.artist }}</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+
+{% endblock %}
+
+

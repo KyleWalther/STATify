@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Your Top Albums</h1>
+
+<!-- Buttons for selecting the time range -->
+<div>
+    <a href="{{ url_for('top_albums', time_range='short_term') }}">
+        <button>Past 4 Weeks</button>
+    </a>
+    <a href="{{ url_for('top_albums', time_range='medium_term') }}">
+        <button>Past 6 Months</button>
+    </a>
+    <a href="{{ url_for('top_albums', time_range='long_term') }}">
+        <button>Past Year</button>
+    </a>
+</div>
+
+<!-- Display the list of albums -->
+<ul>
+    {% if albums %}
+        {% for album in albums %}
+        <li>
+            <h2>{{ album.name }}</h2>
+            <p>Tracks: {{ album.track_count }}</p>
+            <img src="{{ album.image }}" alt="{{ album.name }}" width="100">
+        </li>
+        {% endfor %}
+    {% else %}
+        <p></p>
+    {% endif %}
+</ul>
+{% endblock %}
