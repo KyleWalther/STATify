@@ -93,25 +93,75 @@ def logout():
 
 
 
-@app.route('/top_tracks')
-def top_tracks():
-    """top tracks route"""
+@app.route('/top/tracks', defaults={'time_range': None})
+@app.route('/top/tracks/<time_range>')
+def top_tracks(time_range):
+    """Fetch user's top tracks based on the time range."""
     access_token = session.get('access_token')
     if not access_token:
-        return redirect(url_for('login'))
-          # Redirect to login if not authenticated
-    return render_template('top_tracks.html')
+        return redirect(url_for('login'))  # Redirect to login if not authenticated
+
+    # If no time_range is provided, don't make an API call yet
+    if not time_range:
+        return render_template('top_tracks.html', tracks=None, time_range=None)
+
+    # Fetch top tracks from Spotify API
+    headers = {'Authorization': f'Bearer {access_token}'}
+    top_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit=50'
+    response = requests.get(top_url, headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({"error": "Unable to fetch data"}), response.status_code
+
+    tracks_data = response.json()
+
+    # Process and prepare data for rendering
+    tracks = []
+    for track in tracks_data['items']:
+        tracks.append({
+            'name': track['name'],
+            'artist': ', '.join([artist['name'] for artist in track['artists']]),
+            'album': track['album']['name'],
+            'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
+            'preview_url': track['preview_url']
+        })
+
+    return render_template('top_tracks.html', tracks=tracks, time_range=time_range)
 
 
 
-@app.route('/top_artists')
-def top_artists():
-    """top artistis route"""
+@app.route('/top/artists', defaults={'time_range': None})
+@app.route('/top/artists/<time_range>')
+def top_artists(time_range):
+    """Fetch user's top artists based on the time range."""
     access_token = session.get('access_token')
     if not access_token:
-        return redirect(url_for('login'))
-          # Redirect to login if not authenticated
-    return render_template('top_artists.html')
+        return redirect(url_for('login'))  # Redirect to login if not authenticated
+
+    # If no time_range is provided, don't make an API call yet
+    if not time_range:
+        return render_template('top_artists.html', artists=None, time_range=None)
+
+    # Fetch top artists from Spotify API
+    headers = {'Authorization': f'Bearer {access_token}'}
+    top_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit=50'
+    response = requests.get(top_url, headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({"error": "Unable to fetch data"}), response.status_code
+
+    artists_data = response.json()
+
+    # Process and prepare data for rendering
+    artists = []
+    for artist in artists_data['items']:
+        artists.append({
+            'name': artist['name'],
+            'image': artist['images'][0]['url'] if artist['images'] else '/static/default_image.png',
+            'listeners': artist.get('popularity')
+        })
+
+    return render_template('top_artists.html', artists=artists, time_range=time_range)
 
 
 
@@ -210,31 +260,6 @@ def profile():
     profile_data['top_tracks'] = top_tracks
 
     return render_template('profile.html', profile=profile_data)
-
-
-
-
-@app.route('/top/<item_type>/<time_range>')
-def get_top_items(item_type, time_range):
-    """Fetch user's top items based on item_type and time_range."""
-    access_token = session.get('access_token')
-    if not access_token:
-        return redirect(url_for('home'))
-
-    print(f"Access token: {access_token}")
-
-    headers = {'Authorization': f'Bearer {access_token}'}
-    top_url = f'https://api.spotify.com/v1/me/top/{item_type}?time_range={time_range}&limit=20'
-    print(f"Requesting: {top_url}") 
-    response = requests.get(top_url, headers=headers)
-
-    if response.status_code != 200:
-        return jsonify({"error": "Unable to fetch data"}), response.status_code
-
-    return jsonify(response.json())
-# This route allows users to retrieve their top tracks, artists, or other items from Spotify based on a time range (short-term, medium-term, long-term). The app handles authentication with an access token, sends a request to the Spotify API, handles errors, and returns the data in a JSON format.
-
-
 
 
 if __name__ == '__main__':

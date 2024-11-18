@@ -1,13 +1,50 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h2>Top Tracks</h2>
-<div class="buttons">
-    <button onclick="fetchTopItems('tracks', 'short_term', this)">Past 4 weeks</button>
-    <button onclick="fetchTopItems('tracks', 'medium_term', this)">Past 6 months</button>
-    <button onclick="fetchTopItems('tracks', 'long_term', this)">Past year </button>
-</div>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='top_tracks.css') }}">
+{% endblock %}
 
-<div id="top-items"></div>
-<script src="{{ url_for('static', filename='top_items.js') }}"></script>
+{% block content %}
+<div id="top-items">
+    <h2>Your Top Tracks</h2>
+
+    <!-- Buttons for selecting the time range -->
+    <div class="buttons">
+        <a href="{{ url_for('top_tracks', time_range='short_term') }}">
+            <button>Past 4 Weeks</button>
+        </a>
+        <a href="{{ url_for('top_tracks', time_range='medium_term') }}">
+            <button>Past 6 Months</button>
+        </a>
+        <a href="{{ url_for('top_tracks', time_range='long_term') }}">
+            <button>Past Year</button>
+        </a>
+    </div>
+
+    <!-- Display the list of tracks -->
+    <div class="content-container">
+        {% if tracks %}
+            {% for track in tracks %}
+            <div class="top-item">
+                <img src="{{ track.image }}" alt="{{ track.name }} album cover">
+                <div class="track-info">
+                    <h3>{{ loop.index }}. {{ track.name }}</h3> <!-- Add track number here -->
+                    <p>Artist: {{ track.artist }}</p>
+                    <p>Album: {{ track.album }}</p>
+                    {% if track.preview_url %}
+                    <div class="audio-container">
+                        <audio controls>
+                            <source src="{{ track.preview_url }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p></p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

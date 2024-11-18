@@ -1,0 +1,35 @@
+.top-item {
+    margin-bottom: 20px;
+}
+
+.top-item h3 {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.top-item p {
+    font-size: 1rem;
+    color: #777;
+}
+
+
+
+@app.route('/top/<item_type>/<time_range>')
+def get_top_items(item_type, time_range):
+    """Fetch user's top items based on item_type and time_range."""
+    access_token = session.get('access_token')
+    if not access_token:
+        return redirect(url_for('home'))
+
+    print(f"Access token: {access_token}")
+
+    headers = {'Authorization': f'Bearer {access_token}'}
+    top_url = f'https://api.spotify.com/v1/me/top/{item_type}?time_range={time_range}&limit=20'
+    print(f"Requesting: {top_url}") 
+    response = requests.get(top_url, headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({"error": "Unable to fetch data"}), response.status_code
+
+    return jsonify(response.json())
+# This route allows users to retrieve their top tracks, artists, or other items from Spotify based on a time range (short-term, medium-term, long-term). The app handles authentication with an access token, sends a request to the Spotify API, handles errors, and returns the data in a JSON format.

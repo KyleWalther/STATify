@@ -1,33 +1,41 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='top_albums.css') }}">
+{% endblock %}
+
 {% block content %}
-<h1>Your Top Albums</h1>
+<div id="top-items">
+    <h2>Your Top Albums</h2>
 
-<!-- Buttons for selecting the time range -->
-<div>
-    <a href="{{ url_for('top_albums', time_range='short_term') }}">
-        <button>Past 4 Weeks</button>
-    </a>
-    <a href="{{ url_for('top_albums', time_range='medium_term') }}">
-        <button>Past 6 Months</button>
-    </a>
-    <a href="{{ url_for('top_albums', time_range='long_term') }}">
-        <button>Past Year</button>
-    </a>
+    <!-- Buttons for selecting the time range -->
+    <div class="buttons">
+        <a href="{{ url_for('top_albums', time_range='short_term') }}">
+            <button>Past 4 Weeks</button>
+        </a>
+        <a href="{{ url_for('top_albums', time_range='medium_term') }}">
+            <button>Past 6 Months</button>
+        </a>
+        <a href="{{ url_for('top_albums', time_range='long_term') }}">
+            <button>Past Year</button>
+        </a>
+    </div>
+
+    <!-- Display the list of albums -->
+    <div class="content-container">
+        {% if albums %}
+            {% for album in albums %}
+            <div class="top-item">
+                <img src="{{ album.image }}" alt="{{ album.name }} album cover">
+                <div class="album-info">
+                    <h3>{{ album.name }}</h3>
+                    <p>Tracks: {{ album.track_count }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p></p>
+        {% endif %}
+    </div>
 </div>
-
-<!-- Display the list of albums -->
-<ul>
-    {% if albums %}
-        {% for album in albums %}
-        <li>
-            <h2>{{ album.name }}</h2>
-            <p>Tracks: {{ album.track_count }}</p>
-            <img src="{{ album.image }}" alt="{{ album.name }}" width="100">
-        </li>
-        {% endfor %}
-    {% else %}
-        <p></p>
-    {% endif %}
-</ul>
 {% endblock %}

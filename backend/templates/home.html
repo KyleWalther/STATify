@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
-    <h1>Welcome to the Spotify Login Page</h1>
-    <a href="{{ url_for('login') }}">Login with Spotify</a>
+    <h1 class="statify-home">STATify</h1>
+    <div class="container-main">
+        <div class="text-container-1">
+            <p>
+                This webpage allows you to explore your personalized Spotify insights. After logging in with your Spotify credentials, you can access your profile page to view your saved playlists and discover your top artists, tracks, and albums across different time frames.
+            </p>
+        </div>
+
+        <div class="text-container-2">
+            <p>
+                Dive into your most frequently played tracks and get a snapshot of your listening habits, all in one place. Click the link below to access Spotify's login portal. After authentication, you'll unlock everything STATify has to offer!
+            </p>
+        </div>
+
+        <a class="login" href="{{ url_for('login') }}">Login with Spotify</a>
+    </div> 
 </body>
 </html>

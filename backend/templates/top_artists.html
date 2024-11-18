@@ -1,13 +1,43 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h2>Top Artists</h2>
-<div class="buttons">
-    <button onclick="fetchTopItems('artists', 'short_term', this)">Past 4 Weeks</button>
-    <button onclick="fetchTopItems('artists', 'medium_term', this)">Past 6 Months</button>
-    <button onclick="fetchTopItems('artists', 'long_term', this)">Past Year</button>
-</div>
-
-<div id="top-items"></div>
-<script src="{{ url_for('static', filename='top_items.js') }}"></script>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='top_artists.css') }}">
 {% endblock %}
+
+{% block content %}
+<div id="top-items">
+    <h2>Your Top Artists</h2>
+
+    <!-- Buttons for selecting the time range -->
+    <div class="buttons">
+        <a href="{{ url_for('top_artists', time_range='short_term') }}">
+            <button>Past 4 Weeks</button>
+        </a>
+        <a href="{{ url_for('top_artists', time_range='medium_term') }}">
+            <button>Past 6 Months</button>
+        </a>
+        <a href="{{ url_for('top_artists', time_range='long_term') }}">
+            <button>Past Year</button>
+        </a>
+    </div>
+
+    <!-- Display the list of artists -->
+    <div class="content-container">
+        {% if artists %}
+            {% for artist in artists %}
+            <div class="top-item">
+                <img src="{{ artist.image }}" alt="{{ artist.name }} profile image">
+                <div class="artist-info">
+                    <h3>{{ loop.index }}. {{ artist.name }}</h3>
+                    <p>Popularity: {{ artist.listeners }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
