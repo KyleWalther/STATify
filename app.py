@@ -23,7 +23,8 @@ app.secret_key = os.urandom(24)
 artist_genre_cache = {}
 
 # Spotify authorization URLs
-AUTH_URL = 'https://accounts.spotify.com/authorize'
+AUTH_URL = f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={SCOPE}'
+
 # url for redirect to spotifys login page
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 # where our app sends request to exhange the auth code for an acess token and rrefresh the tioken. The access token is used to auth API requests 
