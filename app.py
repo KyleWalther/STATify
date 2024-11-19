@@ -13,7 +13,7 @@ load_dotenv()
 CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
 CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
 REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI', 'http://localhost:3001/callback')
-SCOPE = 'user-top-read user-read-recently-played'
+SCOPE = 'user-top-read user-read-recently-played user-library-read playlist-read-private playlist-read-collaborative user-read-email'
 # SCOPE defines what kind of data and actions our app is allowed to acces from the users Spotify account and is displayed to the user before login.
 
 app = Flask(__name__)
