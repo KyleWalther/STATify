@@ -10,12 +10,18 @@ load_dotenv()
 # Then we can then access these variables in your code using os.getenv()
 
 # Spotify API credentials and URLs
-CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI', 'http://localhost:3001/callback')
-SCOPE = 'user-top-read user-read-recently-played'
 
+CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
+CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
+REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI", "http://localhost:5000/callback")
+
+
+SCOPE = 'user-top-read user-read-recently-played playlist-read-private user-library-read'
 # SCOPE defines what kind of data and actions our app is allowed to acces from the users Spotify account and is displayed to the user before login.
+# Debugging: Ensure credentials are loaded correctly
+if not CLIENT_ID or not CLIENT_SECRET:
+    raise ValueError("Missing Spotify API credentials! Check environment variables.")
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -56,8 +62,7 @@ def home():
 
 @app.route('/login')
 def login():
-    """Login route handleing login auth with spotify"""
-    auth_url = f'{AUTH_URL}?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={SCOPE}'
+    auth_url = f"https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={SCOPE}"
     return redirect(auth_url)
     # login route where we construct our auth url, flask uses redirect to send us to the spotify login page. User is prompted to login unless already loged in. 
 
@@ -264,5 +269,9 @@ def profile():
     return render_template('profile.html', profile=profile_data)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000) 
+
