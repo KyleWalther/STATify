@@ -16,7 +16,7 @@ CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI", "http://localhost:5000/callback")
 
 
-SCOPE = 'user-top-read user-read-recently-played user-library-read'
+SCOPE = 'user-top-read user-read-recently-played playlist-read-private'
 # SCOPE defines what kind of data and actions our app is allowed to acces from the users Spotify account and is displayed to the user before login.
 # Debugging: Ensure credentials are loaded correctly
 if not CLIENT_ID or not CLIENT_SECRET:
