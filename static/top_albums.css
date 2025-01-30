@@ -25,7 +25,7 @@ button {
     font-size: 1.5em;
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 2px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
@@ -46,7 +46,7 @@ button:active {
     max-width: 1200px;
     background-color: rgba(255, 255, 255, 0.1); 
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -64,7 +64,7 @@ button:active {
     gap: 20px;
     background-color: rgba(255, 255, 255, 0.05);
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 2px;
     width: 100%;
     max-width: 800px; 
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
@@ -80,7 +80,7 @@ button:active {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 .album-info {
@@ -97,4 +97,25 @@ button:active {
     font-size: 1.2em;
     color: #b3b3b3;
     margin: 5px 0 0;
+}
+
+
+/* Spotify Logo */
+.spotify-logo {
+    width: 70px !important;
+    height: auto !important;
+    display: block;
+    margin: 10px left;
+    transition: transform 0.2s ease-in-out;
+}
+
+.spotify-logo:hover {
+    transform: scale(1.1);  /* Slight zoom effect on hover */
+}
+
+/* Spotify Link Styles */
+.spotify-link {
+    display: inline-block; /* Removed unnecessary width/height */
+    margin-top: 5px;
+    text-align: center; /* Centers the Spotify logo */
 }

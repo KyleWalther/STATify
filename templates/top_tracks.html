@@ -28,9 +28,18 @@
             <div class="top-item">
                 <img src="{{ track.image }}" alt="{{ track.name }} album cover">
                 <div class="track-info">
-                    <h3>{{ loop.index }}. {{ track.name }}</h3> <!-- Add track number here -->
+                    <h3>{{ loop.index }}. {{ track.name }}</h3> <!-- Track number -->
                     <p>Artist: {{ track.artist }}</p>
                     <p>Album: {{ track.album }}</p>
+
+                    <!-- Spotify Link with Logo -->
+                    <a href="{{ track.spotify_url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='spotify_logo.png') }}" 
+                             alt="Play on Spotify" 
+                             class="spotify-logo">
+                    </a>
+
+                    <!-- Audio Preview -->
                     {% if track.preview_url %}
                     <div class="audio-container">
                         <audio controls>
@@ -43,7 +52,7 @@
             </div>
             {% endfor %}
         {% else %}
-            <p></p>
+            <p>No tracks found.</p>
         {% endif %}
     </div>
 </div>

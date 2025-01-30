@@ -30,11 +30,18 @@
                 <div class="album-info">
                     <h3>{{ album.name }}</h3>
                     <p>Tracks: {{ album.track_count }}</p>
+
+                    <!-- Spotify Link with Logo -->
+                    <a href="{{ album.spotify_url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='spotify_logo.png') }}" 
+                             alt="Play on Spotify" 
+                             class="spotify-logo">
+                    </a>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            <p></p>
+            <p>No albums found.</p>
         {% endif %}
     </div>
 </div>

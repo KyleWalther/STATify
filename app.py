@@ -109,12 +109,13 @@ def top_tracks(time_range):
         return redirect(url_for('login'))  # Redirect to login if not authenticated
 
     # If no time_range is provided, don't make an API call yet
+    # Set default time_range if not provided
     if not time_range:
-        return render_template('top_tracks.html', tracks=None, time_range=None)
+        time_range = 'short_term'  # Default to short_term if no time_range provided
 
     # Fetch top tracks from Spotify API
     headers = {'Authorization': f'Bearer {access_token}'}
-    top_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit=50'
+    top_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit=20'
     response = requests.get(top_url, headers=headers)
 
     if response.status_code != 200:
@@ -129,8 +130,9 @@ def top_tracks(time_range):
             'name': track['name'],
             'artist': ', '.join([artist['name'] for artist in track['artists']]),
             'album': track['album']['name'],
-            'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-            'preview_url': track['preview_url']
+            'image': track['album']['images'][0]['url'] if track['album']['images'] else DEFAULT_IMAGE_URL,
+            'preview_url': track['preview_url'],
+            'spotify_url': track['external_urls']['spotify'] 
         })
 
     return render_template('top_tracks.html', tracks=tracks, time_range=time_range)
@@ -146,12 +148,13 @@ def top_artists(time_range):
         return redirect(url_for('login'))  # Redirect to login if not authenticated
 
     # If no time_range is provided, don't make an API call yet
+    # Set default time_range if not provided
     if not time_range:
-        return render_template('top_artists.html', artists=None, time_range=None)
+        time_range = 'short_term'  # Default to short_term if no time_range provided
 
     # Fetch top artists from Spotify API
     headers = {'Authorization': f'Bearer {access_token}'}
-    top_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit=50'
+    top_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit=20'
     response = requests.get(top_url, headers=headers)
 
     if response.status_code != 200:
@@ -165,7 +168,8 @@ def top_artists(time_range):
         artists.append({
             'name': artist['name'],
             'image': artist['images'][0]['url'] if artist['images'] else '/static/default_image.png',
-            'listeners': artist.get('popularity')
+            'listeners': artist.get('popularity'),
+            'spotify_url': artist['external_urls']['spotify'] 
         })
 
     return render_template('top_artists.html', artists=artists, time_range=time_range)
@@ -174,6 +178,11 @@ def top_artists(time_range):
 
 @app.route('/top/albums', defaults={'time_range': None})
 @app.route('/top/albums/<time_range>')
+
+
+
+
+
 def top_albums(time_range):
     """Fetch user's top albums based on the time range."""
     access_token = session.get('access_token')
@@ -181,12 +190,13 @@ def top_albums(time_range):
         return redirect(url_for('home'))
 
     # If no time_range is provided, don't make an API call yet
+    # Set default time_range if not provided
     if not time_range:
-        return render_template('top_albums.html', albums=None, time_range=None)
+        time_range = 'short_term'  # Default to short_term if no time_range provided
 
     # If a time_range is provided, proceed with fetching data
     headers = {'Authorization': f'Bearer {access_token}'}
-    top_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit=50'
+    top_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit=20'
     response = requests.get(top_url, headers=headers)
 
     if response.status_code != 200:
@@ -204,7 +214,8 @@ def top_albums(time_range):
                 'id': album_id,
                 'name': album_name,
                 'image': track['album']['images'][0]['url'] if track['album']['images'] else None,
-                'track_count': 0
+                'track_count': 0,
+                'spotify_url': track['external_urls']['spotify'] 
             }
         albums[album_name]['track_count'] += 1
 

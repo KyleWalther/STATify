@@ -29,7 +29,7 @@ button {
     font-size: 1.5em;
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 2px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); 
@@ -38,7 +38,6 @@ button {
 button:hover {
     background-color: #1aa34a;
 }
-
 
 button:active {
     transform: scale(0.95);
@@ -52,7 +51,7 @@ button:active {
     max-width: 1200px;
     background-color: rgba(255, 255, 255, 0.1); /* Grayish transparent background */
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 2px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -73,8 +72,9 @@ button:active {
     gap: 10px;
     background-color: rgba(255, 255, 255, 0.05); /* Light grey transparent background */
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 2px;
     width: 250px;
+    max-width: 300px; /* Added max-width */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for scaling and shadow */
 }
@@ -85,12 +85,13 @@ button:active {
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.7); /* Darker shadow on hover */
 }
 
-/* Track Image */
+/* Track Image Styling */
 .top-item img {
-    width: 100px;
-    height: 100px;
+    width: 100%; /* Adjust image size */
+    max-width: 200px; /* Limit max width of album image */
+    height: auto;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 2px;
 }
 
 /* Track Information */
@@ -116,7 +117,6 @@ button:active {
 
 audio {
     width: 200px;
-   
     margin-top: 10px;
 }
 
@@ -124,4 +124,24 @@ audio {
 p {
     text-align: center;
     font-size: 1.2em;
+}
+
+/* Spotify Logo */
+.spotify-logo {
+    width: 70px !important;
+    height: auto !important;
+    display: block;
+    margin: 10px auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.spotify-logo:hover {
+    transform: scale(1.1);  /* Slight zoom effect on hover */
+}
+
+/* Spotify Link Styles */
+.spotify-link {
+    display: inline-block; /* Removed unnecessary width/height */
+    margin-top: 5px;
+    text-align: center; /* Centers the Spotify logo */
 }

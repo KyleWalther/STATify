@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
-
-
 {% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
 {% endblock %}
-
 
 {% block content %}
 <h2>Welcome, {{ profile.name }}!</h2>
@@ -13,6 +10,11 @@
 <div class="profile-container">
     <div class="profile-header">
         <img src="{{ profile.image }}" alt="Profile Image" class="profile-image">
+        
+        <!-- Spotify Logo -->
+        <a href="https://www.spotify.com" target="_blank">
+            <img src="{{ url_for('static', filename='spotify_logo.png') }}" alt="Spotify Logo" class="spotify-logo">
+        </a>
     </div>
 
     <div class="playlist-container">
@@ -25,30 +27,39 @@
                         <img src="{{ playlist.image }}" alt="{{ playlist.name }}" class="playlist-image">
                     {% endif %}
                     <a href="{{ playlist.url }}" target="_blank" class="playlist-link">{{ playlist.name }}</a>
+                    
+                    <!-- Spotify Logo for the Playlist -->
+                    <a href="{{ playlist.url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='spotify_logo.png') }}" alt="Spotify Logo" class="spotify-logo">
+                    </a>
                 </li>
             {% endfor %}
         </ul>
 
- <!-- Top 10 Current Tracks Section -->
- <div class="track-container">
-<h3>Some of your favorite tracks this year</h3>
- 
-    <ul class="track-list">
-        {% for track in profile.top_tracks[:10] %} 
-            <li class="track-item">
-                <div class="track-info"> 
-                    {% if track.album_cover %} 
-                        <img src="{{ track.album_cover }}" alt="{{ track.name }} album cover" class="album-cover">
-                    {% endif %}
-                    <a href="{{ track.url }}" target="_blank" class="track-link">{{ track.name }} by {{ track.artist }}</a>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+        <!-- Top 10 Current Tracks Section -->
+        <div class="track-container">
+            <h3>Some of your favorite tracks this year</h3>
+            <ul class="track-list">
+                {% for track in profile.top_tracks[:10] %}
+                    <li class="track-item">
+                        <div class="track-info">
+                            {% if track.album_cover %}
+                                <img src="{{ track.album_cover }}" alt="{{ track.name }} album cover" class="album-cover">
+                            {% endif %}
+                            <a href="{{ track.url }}" target="_blank" class="track-link">{{ track.name }} by {{ track.artist }}</a>
+                            
+                            <!-- Spotify Logo for the Track -->
+                            <a href="{{ track.spotify_url }}" target="_blank">
+                                <img src="{{ url_for('static', filename='spotify_logo.png') }}" alt="Spotify Logo" class="spotify-logo">
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
-
-</div>
-
 {% endblock %}
+
 
 
