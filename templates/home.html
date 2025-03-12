@@ -21,7 +21,31 @@
             </p>
         </div>
 
-        <a class="login" href="{{ url_for('login') }}">Login with Spotify</a>
+        <!-- Checkbox for agreement -->
+        <div class="terms-container">
+            <input type="checkbox" id="termsCheckbox">
+            <label for="termsCheckbox">
+                I agree to the <a href="{{ url_for('terms') }}" target="_blank">Terms of Service</a> and 
+                <a href="{{ url_for('privacy') }}" target="_blank">Privacy Policy</a>.
+            </label>
+        </div>
+
+        <!-- Login button (initially disabled) -->
+        <a class="login" id="loginButton" href="{{ url_for('login') }}" style="pointer-events: none; opacity: 0.5;">Login with Spotify</a>
     </div> 
+
+    <script>
+        document.getElementById('termsCheckbox').addEventListener('change', function() {
+            var loginButton = document.getElementById('loginButton');
+            if (this.checked) {
+                loginButton.style.pointerEvents = "auto";
+                loginButton.style.opacity = "1";
+            } else {
+                loginButton.style.pointerEvents = "none";
+                loginButton.style.opacity = "0.5";
+            }
+        });
+    </script>
 </body>
 </html>
+
